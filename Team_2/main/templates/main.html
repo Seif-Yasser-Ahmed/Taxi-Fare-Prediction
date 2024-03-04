@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{%static 'css/footer.css' %}"> <!--footer css file-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <title>Team-2</title>
+</head>
+
+<body class="bg-light">
+    <div id="shipping-info">
+        <br><br>
+        <h1 class="text-center">Get Your Ride Nowww</h1>
+        <br><br><br><br><br>
+        <div class="container w-100" id="main"> <!-- main start -->
+            <div class=" w-50 float-end" id="DIV"> <!-- cart container start -->
+            </div><!-- cart container end-->
+            <form id="form" action="user">
+                <div class="container ms-1 w-50 " id="information"> <!-- information container start -->
+                    <div id="user-info">
+                        <div class="row g-3">
+                            <div class="mb-3 col">
+                                <label for="fisrtname" class="form-label" name="name">First Name</label>
+                                <input type="text" class="form-control" id="firstname" name="username"
+                                    placeholder="Team">
+                            </div>
+                            <div class="mb-3 col">
+                                <label for="lastname" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="lastname" placeholder="Two">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mobilenumber" class="form-label" name="mobile">Mobile Number</label>
+                        <input type="number" class="form-control" id="mobile" name="mobile" placeholder="01XXXXXXXXX"
+                            pattern="[0-9]{11}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" name="Car Condition">Ride Type</label>
+                        <div class="btn-group" required>
+                            <select class="dropdown-menu-end dropdown-menu-lg-start btn btn-secondary dropdown-toggl"
+                                name="Car Condition" id="Car Condition">
+                                <option value="0">Economic</option>
+                                <option value="1">Silver</option>
+                                <option value="2">Gold</option>
+                                <option value="3">Premium</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="btn-group">
+                            <label class="form-label" name="passenger_count">passengers </label>
+                            <input type="number" class="form-control" id="mobile" name="passenger_count" placeholder="0"
+                                required>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <hr>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        I've read and accepted all <a href="">Terms and Conditions</a>
+                    </label>
+                </div>
+                <br>
+
+                <div class="d-grid gap-2">
+                    <input class="btn btn-outline-primary" type="submit" value="continue" id="form-button">
+                    <!--onclick attribute is to move you to another html page-->
+                </div>
+        </div> <!-- information container end -->
+        </form>
+        <div class="box-element" style="display: none !important;" id="payment-info">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="visa">
+                <label class="form-check-label" for="visa">
+                    Visa/Mastercard
+                </label>
+                <div class="">
+                    <label for="cardno" class="form-label">Card Number</label>
+                    <input type="text" class="form-control" id="cardno" placeholder="" required pattern="[0-9]{16}">
+                </div>
+                <div class="">
+                    <label for="cardname" class="form-label">Card Holder Name</label>
+                    <input type="text" class="form-control" id="cardname" placeholder="" required>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="">Expiry Date</label>
+                        <div class="col mb-2">
+                            <input type="number" min="1" max="12" step="1" class="form-control" id="cardname"
+                                placeholder="MM">
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" min="2023" max="2040" step="1" id="cardname"
+                                placeholder="YYYY">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="cvv">CVV</label>
+                        <input type="number" pattern="[0-9]{3}" step="1" class="form-control" id="cardname"
+                            placeholder="">
+                    </div>
+                </div>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="cash">
+                <label class="form-check-label" for="cash">
+                    Cash on delivery
+                </label>
+            </div>
+            <form class=" text-center">
+                <button id="make-payment" class="btn btn-outline-primary" type="submit">Place
+                    Order</button>
+            </form>
+        </div>
+    </div> <!-- main end-->
+    </div>
+    <br>
+    <!-- start footer -->
+    <div id="footer" class="footer">
+        <!-- <div class="container"> -->
+        <div class="box text-center"> <!--Home page section-->
+            <h3 class="text">
+                Team-2
+            </h3>
+            <p class="text"> Taxi Fare Prediction Project </p>
+        </div>
+        <!-- </div> -->
+        <div class="footer-copyright py-3">&copy; 2023 Copyrights reserved</div> <!--copyrights sction-->
+    </div>
+    <!-- End footer -->
+
+</html>
