@@ -17,4 +17,4 @@ Machine Learning team-project for internship at Cellula Technologies <br>
 >     - Random Forest
 >     - XGBoost Regressor
 > - **Task3:**
->   - Deploy the model using Django using google maps API 
+>   - Deploy the model using Django using leaflet and Weather APIs 
