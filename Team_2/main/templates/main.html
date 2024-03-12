@@ -11,18 +11,65 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
     <title>Team-2</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 
 <body class="bg-light">
+    <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" height="100"> <!--logo and brand's name-->
+            </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent"> <!--links in navbar-->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="">Home</a> <!--main page-->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#map">Map</a> <!--goes to map section-->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#footer">About Us</a> <!--goes to footer-->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Sign out</a> <!--goes to sign up href="signout"-->
+                    </li>
+                    <li class="nav-item ms-2"> <!--mao icon-->
+                        <a title="Go to map" href="#map">
+                            <i class="fa fa-map fa-2x" style=" margin-top: 3px;"></i>
+                        </a>
+                    </li>
+                    <h1 class="text-center  text-secondary" style="margin-left:20px;">Get Your Ride Nowww with Us!!!
+                    </h1>
+                </ul>
+
+
+                <form class=" d-flex mt-2" role="search"> <!--search button-->
+                    <input class="form-control me-3" type="search" placeholder="Search" aria-label="Search">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="button"
+                        autocomplete="off">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
     <div id="shipping-info">
         <br><br>
-        <h1 class="text-center">Get Your Ride Nowww</h1>
-        <br><br><br><br><br>
+        <br>
         <div class="container w-100" id="main"> <!-- main start -->
-            <div class=" w-50 float-end" id="DIV"> <!-- cart container start -->
-            </div><!-- cart container end-->
-            <form id="form" action="user">
-                <div class="container ms-1 w-50 " id="information"> <!-- information container start -->
+            <!-- {{m|safe}} -->
+
+            <div id="map" class="text-cente containerr" style="height: 600px; width:600px;">
+                <div id="lng"></div>
+                <div id="lat"></div>
+            </div>
+            <form id="form" action="" method="POST">
+                {% csrf_token %}
+                <div class="container " id="information"> <!-- information container start -->
                     <div id="user-info">
                         <div class="row g-3">
                             <div class="mb-3 col">
@@ -42,10 +89,10 @@
                             pattern="[0-9]{11}">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" name="Car Condition">Ride Type</label>
+                        <label class="form-label">Ride Type</label>
                         <div class="btn-group" required>
                             <select class="dropdown-menu-end dropdown-menu-lg-start btn btn-secondary dropdown-toggl"
-                                name="Car Condition" id="Car Condition">
+                                name="Car_Condition" id="Car_Condition">
                                 <option value="0">Economic</option>
                                 <option value="1">Silver</option>
                                 <option value="2">Gold</option>
@@ -60,6 +107,13 @@
                                 required>
                         </div>
                     </div>
+                    {% if fare %}
+                    <div class="mb-3 text-center">
+                        <div class="text-center">
+                            <h1>your expected fare is <strong>{{ fare }}$</strong> </h1>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
                 <hr>
                 <hr>
@@ -72,70 +126,62 @@
                 <br>
 
                 <div class="d-grid gap-2">
-                    <input class="btn btn-outline-primary" type="submit" value="continue" id="form-button">
+                    <input class="btn btn-outline-secondary" type="submit" value="continue" id="form-button">
                     <!--onclick attribute is to move you to another html page-->
                 </div>
         </div> <!-- information container end -->
         </form>
-        <div class="box-element" style="display: none !important;" id="payment-info">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="visa">
-                <label class="form-check-label" for="visa">
-                    Visa/Mastercard
-                </label>
-                <div class="">
-                    <label for="cardno" class="form-label">Card Number</label>
-                    <input type="text" class="form-control" id="cardno" placeholder="" required pattern="[0-9]{16}">
-                </div>
-                <div class="">
-                    <label for="cardname" class="form-label">Card Holder Name</label>
-                    <input type="text" class="form-control" id="cardname" placeholder="" required>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <label for="">Expiry Date</label>
-                        <div class="col mb-2">
-                            <input type="number" min="1" max="12" step="1" class="form-control" id="cardname"
-                                placeholder="MM">
-                        </div>
-                        <div class="col">
-                            <input type="number" class="form-control" min="2023" max="2040" step="1" id="cardname"
-                                placeholder="YYYY">
-                        </div>
-                    </div>
-                    <div class="col">
-                        <label for="cvv">CVV</label>
-                        <input type="number" pattern="[0-9]{3}" step="1" class="form-control" id="cardname"
-                            placeholder="">
-                    </div>
-                </div>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="cash">
-                <label class="form-check-label" for="cash">
-                    Cash on delivery
-                </label>
-            </div>
-            <form class=" text-center">
-                <button id="make-payment" class="btn btn-outline-primary" type="submit">Place
-                    Order</button>
-            </form>
-        </div>
-    </div> <!-- main end-->
     </div>
     <br>
     <!-- start footer -->
     <div id="footer" class="footer">
-        <!-- <div class="container"> -->
-        <div class="box text-center"> <!--Home page section-->
+        <div class="box text-center">
             <h3 class="text">
                 Team-2
             </h3>
+            <div class="box">
+                <ul class="links">
+                    <li><a>Seif Yasser</a></li>
+                    <li><a>Nourhan AbdAllh</a></li>
+                    <li><a>maram Hatem</a></li>
+                    <li><a>Aya Ahmed</a></li>
+                    <li><a>Bassem Mahmoud</a></li>
+                    <li><a>Yasmine Sameh</a></li>
+                </ul>
+            </div>
             <p class="text"> Taxi Fare Prediction Project </p>
         </div>
         <!-- </div> -->
         <div class="footer-copyright py-3">&copy; 2023 Copyrights reserved</div> <!--copyrights sction-->
     </div>
     <!-- End footer -->
+    <script>
+        var map = L.map('map').setView([40.767937, -73.982155], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        let latlngArray = []
+        map.on('click', (event) => {
+            console.log(event.latlng)
+            let lat = event.latlng.lat
+            let lng = event.latlng.lng
+            if (latlngArray.length < 2) {
+                latlngArray.push(event.latlng)
+                L.marker([lat, lng]).addTo(map)
+                fetch(`/?latitude=${lat}&longitude=${lng}`)
+                let polyline = L.polyline(latlngArray, { color: 'red' }).addTo(map);
+
+            } else {
+                alert("Can't Choose more than two location!")
+            }
+
+
+        })
+        var latlngs = [
+            [40.767937, -73.982155],
+            [39.767937, -70.982155],
+            [17.686816, 83.218482]
+        ];
+    </script>
 
 </html>
