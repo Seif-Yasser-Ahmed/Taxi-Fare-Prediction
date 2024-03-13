@@ -9,8 +9,8 @@ import pickle
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
-with open("./savedModels/model2.pkl", 'rb') as model_file:
-    scaler, model = pickle.load(model_file)
+with open("./savedModels/model.pkl", 'rb') as f:
+    model = pickle.load(f)
 
 
 current_time = datetime.datetime.now()
@@ -42,10 +42,10 @@ def main(request):
     if len(longitude) != 0:
         pickup_longitude = float(longitude[0])
         pickup_latitude = float(latitude[0])
-        if len(longitude) == 2:
+        if len(longitude) >= 2:
             dropoff_longitude = float(longitude[1])
             dropoff_latitude = float(latitude[1])
-    if len(latitude) >= 2 and len(latitude) < 4:
+    if len(latitude) >= 2:
         distance = get_dist(
             longitude[0], longitude[1], latitude[0], latitude[1])
         jfk_dist = get_dist(longitude[0], jfk_lng, latitude[0], jfk_lat)
@@ -71,16 +71,16 @@ def main(request):
     year = current_time.year
     traffic = get_traffic(hour, weekday)
     Traffic_Condition_Congested_Traffic = bool(traffic[0])
-    Traffic_Condition_Dense_Traffic = bool(traffic[0])
-    Traffic_Condition_Flow_Traffic = bool(traffic[0])
-    if len(latitude) == 2:
+    Traffic_Condition_Dense_Traffic = bool(traffic[1])
+    Traffic_Condition_Flow_Traffic = bool(traffic[2])
+    if len(latitude) >= 2:
         features = pd.DataFrame({
             'Car Condition': [Car_condition],
             'Weather': [Weather],
-            'pickup_longitude': [pickup_longitude],
-            'pickup_latitude': [pickup_latitude],
-            'dropoff_longitude': [dropoff_longitude],
-            'dropoff_latitude': [dropoff_latitude],
+            'pickup_longitude': [pickup_longitude+73],
+            'pickup_latitude': [pickup_latitude-40],
+            'dropoff_longitude': [dropoff_longitude+73],
+            'dropoff_latitude': [dropoff_latitude-40],
             'passenger_count': [passenger_count],
             'hour': [hour],
             'day': [day],
@@ -94,14 +94,20 @@ def main(request):
             'nyc_dist': [nyc_dist],
             'distance': [distance],
             'bearing': [bearing],
-            # 'bearing1': 0,
             'Traffic Condition_Congested Traffic': [Traffic_Condition_Congested_Traffic],
             'Traffic Condition_Dense Traffic': [Traffic_Condition_Dense_Traffic],
-            'Traffic Condition_Flow Traffic': [Traffic_Condition_Flow_Traffic]
+            'Traffic Condition_Flow Traffic': [Traffic_Condition_Flow_Traffic],
+            # 'polyfeature': 1,
         })
-        norm_features = scaler.fit_transform(features)
-        norm_fare = model.predict(norm_features)
+
+        print(features)
+
+        # norm_features = scaler.fit_transform(features)
+        norm_fare = model.predict(features)
+        print(norm_fare)
         fare = float(norm_fare[0]*42)
+        print(fare)
+        norm_fare = []
         fare = "{:.2f}".format(fare)
     context = {'fare': fare}
     return render(request, 'main.html', context)
@@ -171,3 +177,30 @@ def get_weather(temp, sky):
         return 3
     elif temp > 17 and temp < 30:
         return 0
+
+
+features = pd.DataFrame({
+    'Car Condition': [2],
+    'Weather': [-11],
+    'pickup_longitude': [-1],
+    'pickup_latitude': [1],
+    'dropoff_longitude': [1],
+    'dropoff_latitude': [4],
+    'passenger_count': [1],
+    'hour': [2],
+    'day': [3],
+    'month': [1],
+    'weekday': [1],
+    'year': [1],
+    'jfk_dist': [1],
+    'ewr_dist': [2],
+    'lga_dist': [1],
+    'sol_dist': [1],
+    'nyc_dist': [4],
+    'distance': [3],
+    'bearing': [5],
+    'Traffic Condition_Congested Traffic': [0],
+    'Traffic Condition_Dense Traffic': [0],
+    'Traffic Condition_Flow Traffic': [1],
+    'polyfeature': 1,
+})
